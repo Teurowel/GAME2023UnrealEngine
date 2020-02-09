@@ -1,0 +1,13 @@
+component -> Spline
+
+Add new splie point -> Press Alt and drag point
+
+MathExpression : any equation you want
+
+Get distance between meshes based on number of mesh : Get Plint LEngth / number of meshes
+
+Get location at distance along spline : based on distance between meshes, we can get location of meshes along spline and spawn static mesh
+
+InstancedStaticMesh : optimaization
+
+Add Spline Mesh Component : Bending PipeLine
