@@ -1,0 +1,11 @@
+Create Pawn of EQSTesting PAwn
+
+Set Query Tempalte as our EnvQuery
+
+In EvnQuery, Create PathingGrid, Add test of Trace
+
+
+
+Create Context using EnvQueryCOntext_BlueprintBase
+
+Make Behaviour tree and BlackBoard for AI
