@@ -13,6 +13,9 @@ class AWeek11_RPCGameMode : public AGameModeBase
 
 public:
 	AWeek11_RPCGameMode();
+
+public :
+
 };
 
 

@@ -29,6 +29,26 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	
+
+	//Send messge from server to specific client
+	UFUNCTION(Client, Reliable, BlueprintCallable)
+	void ClientSendMessage(const FString& Msg);
+	bool ClientSendMessage_Validate(const FString& Msg);
+	void ClientSendMessage_Implementation(const FString& Msg);
+
+	//Send message from the owning client to server
+	UFUNCTION(Server, WithValidation, Reliable, BlueprintCallable)
+	void ServerSendMessage(const FString& Msg);
+	bool ServerSendMessage_Validate(const FString& Msg);
+	void ServerSendMessage_Implementation(const FString& Msg);
+
+	//Send message from the server to EVERY client( and the server)
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+	void MulticastSendMessage(const FString& Msg);
+	bool MulticastSendMessage_Validate(const FString& Msg);
+	void MulticastSendMessage_Implementation(const FString& Msg);
+
 protected:
 
 	/** Resets HMD orientation in VR. */

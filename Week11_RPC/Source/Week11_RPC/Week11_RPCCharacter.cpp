@@ -8,6 +8,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include <Kismet/KismetSystemLibrary.h>
+#include "Kismet/GameplayStatics.h"
+#include "Week11_RPCGameMode.h"
+#include "MyGameState.h"
+
 
 //////////////////////////////////////////////////////////////////////////
 // AWeek11_RPCCharacter
@@ -131,4 +136,52 @@ void AWeek11_RPCCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+
+
+
+bool AWeek11_RPCCharacter::ClientSendMessage_Validate(const FString& Msg)
+{
+	return true;
+}
+
+void AWeek11_RPCCharacter::ClientSendMessage_Implementation(const FString& Msg)
+{
+	
+	//auto newMsg = FString::Printf(TEXT(" IsLocallyControlled: %s -- %s"), IsLocallyControlled() ? "true" : "false", *Msg);
+	UKismetSystemLibrary::PrintString(this, Msg, true, false, FColor::Red, 5.f);
+}
+
+bool AWeek11_RPCCharacter::ServerSendMessage_Validate(const FString& Msg)
+{
+	if (Msg.Contains(TEXT("fuddle duddle"), ESearchCase::IgnoreCase))
+	{
+		return false; //User is disconnected
+	}
+
+	return true;
+}
+
+void AWeek11_RPCCharacter::ServerSendMessage_Implementation(const FString& Msg)
+{
+	//UKismetSystemLibrary::PrintString(this, Msg, true, false, FColor::Red, 5.f);
+
+	//Add Msg to ArrayOfMsg in GameMode
+	//AWeek11_RPCGameMode* GameMode = Cast<AWeek11_RPCGameMode>(UGameplayStatics::GetGameMode(this));
+	
+	AMyGameState* const MyGameState = GetWorld() != NULL ? GetWorld()->GetGameState<AMyGameState>() : NULL;
+	MyGameState->ArrayOfMsg.Add(Msg);
+	MyGameState->OnRep_ArrayOfMsg();
+
+}
+
+bool AWeek11_RPCCharacter::MulticastSendMessage_Validate(const FString& Msg)
+{
+	return true;
+}
+
+void AWeek11_RPCCharacter::MulticastSendMessage_Implementation(const FString& Msg)
+{
+	UKismetSystemLibrary::PrintString(this, Msg, true, false, FColor::Red, 5.f);
 }

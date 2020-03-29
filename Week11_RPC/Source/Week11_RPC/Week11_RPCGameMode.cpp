@@ -3,6 +3,7 @@
 #include "Week11_RPCGameMode.h"
 #include "Week11_RPCCharacter.h"
 #include "UObject/ConstructorHelpers.h"
+#include "MyGameState.h"
 
 AWeek11_RPCGameMode::AWeek11_RPCGameMode()
 {
@@ -11,5 +12,11 @@ AWeek11_RPCGameMode::AWeek11_RPCGameMode()
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<AGameStateBase> GameStateBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/BP_MyGameState"));
+	if (GameStateBPClass.Class != NULL)
+	{
+		GameStateClass = GameStateBPClass.Class;
 	}
 }
